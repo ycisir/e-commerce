@@ -1,0 +1,69 @@
+from django import forms
+from account.models import User
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+
+
+class RegistrationForm(forms.ModelForm):
+	password = forms.CharField(min_length=6, widget=(forms.PasswordInput(attrs={'placeholder':'Password'})))
+	confirm_password = forms.CharField(widget=(forms.PasswordInput(attrs={'placeholder':'Confirm Password'})))
+
+	class Meta:
+		model = User
+		fields = ('email', 'password', 'confirm_password')
+		widgets = {
+			'email': forms.EmailInput(attrs={
+				'placeholder': 'Email'
+			})
+		}
+
+	def clean(self):
+		cleaned_data = super().clean()
+		password = cleaned_data.get('password')
+		confirm_password = cleaned_data.get('confirm_password')
+
+		if password and confirm_password and password != confirm_password:
+			self.add_error('confirm_password', 'Password and confirm password do not match!')
+		
+		return cleaned_data
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+
+		if User.objects.filter(email=email).exists():
+			raise forms.ValidationError('A user with this email already exists!')
+
+		return email
+
+
+class LoginForm(forms.Form):
+	email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
+	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+
+
+class PasswordResetForm(forms.Form):
+	email = forms.EmailField(error_messages={'required': 'Email required'},widget=forms.EmailInput(attrs={'placeholder':'Your registered email id'}))
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+
+		if not User.objects.filter(email=email).exists():
+			raise forms.ValidationError('No account is associated with this email address!')
+
+		return email
+
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs['placeholder'] = 'Current Password'
+        self.fields['new_password1'].widget.attrs['placeholder'] = 'New Password'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm New Password'
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['new_password1'].widget.attrs['placeholder'] = 'New Password'
+		self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm New Password'
+		self.fields['new_password2'].label = 'Confirm New Password'
