@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block title %} register {% endblock title %}
+
+{% block main %}
+    <h3>register page</h3>
+    <form action="{% url 'register' %}" method="post" novalidate>
+      
+      {% csrf_token %}
+
+      {% include 'account/components/form.html' %}
+
+      <button type="submit">Register</button>
+   </form>
+
+   already registed ?<a href="{% url 'login' %}">login</a>
+   
+{% endblock main %}

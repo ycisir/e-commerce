@@ -1,0 +1,9 @@
+<body>
+    
+    {% if activation_url %}
+        <p>Thanks for signup! to activate your account <a href="{{activation_url}}">click here</a>.</p>
+    {% else %}    
+        <p>To reset your password <a href="{{reset_url}}">click here</a>. This link is valid for 10 mins.</p>
+    {% endif %}
+    
+</body>
