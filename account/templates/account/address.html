@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %} address {% endblock title %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col-md-4">
+      {% include 'account/components/profile_sidebar.html' %}
+  </div>
+
+  <div class="col-md-8">
+      <div class="row">
+          {% for address in user_address %}
+              <div class="col-md-6">
+                  <div class="card mb-3">
+                      <div class="card-body">
+                          <h3>Address {{forloop.counter}}</h3>
+                          <p>Name: {{address.name}}</p>
+                          <p>Land mark (street): {{address.locality}}</p>
+                          <p>City: {{address.city}}</p>
+                          <p>State: {{address.state}}</p>
+                          <p>Pin Code: {{address.zipcode}}</p>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+  </div>
+  
+</div>
+
+{% endblock main %}
