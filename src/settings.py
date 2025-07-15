@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-LOGIN_REDIRECT_URL = '/account/profile/'
+LOGIN_REDIRECT_URL = '/account/dashboard/'
 AUTH_USER_MODEL = 'account.User'
 SITE_DOMAIN = 'http://127.0.0.1:8000/'
 SITE_NAME = 'e-commerce'

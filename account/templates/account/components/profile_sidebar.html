@@ -3,28 +3,22 @@
 
 
 
-<div class="bg-light p-3 rounded">
+<div class="bg-light p-3 rounded mb-3">
     <h5 class="lead mb-3">
         Welcome, {% if username %} {{username}} {% endif %}
     </h5>
     <ul>
         <li class="my-2">
-            <a class="{% if active %} {{active}} {% endif %}" href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'dashboard' %}">Profile</a>
         </li>
         <li  class="my-2">
-            <a class="{% if active %} {{active}} {% endif %}" href="{% url 'address' %}">Address</a>
+            <a href="{% url 'address' %}">Address</a>
         </li>
         <li  class="my-2">
             <a class="{% if active %} {% endif %}" href="#">Orders</a>
         </li>
         <li  class="my-2">
-            <a class="{% if active %} {{active}} {% endif %}" href="{% url 'password_change' %}">Change password</a>
-        </li>
-        <li  class="my-2">
-            <form action="{% url 'logout' %}" method="post" class="list-group-item list-group-item-action">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-link p-0">Logout</button>
-            </form>
+            <a href="{% url 'password_change' %}">Change password</a>
         </li>
     </ul>
 </div>

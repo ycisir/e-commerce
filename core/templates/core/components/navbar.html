@@ -1,59 +1,56 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary text-center">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
     <div class="container">
         <a class="navbar-brand" href="/">e-commerce</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- Uncomment dropdowns if needed
+            <ul class="navbar-nav me-auto">
+                
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="electronicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Electronics
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Mobiles</a></li>
                         <li><a class="dropdown-item" href="#">Laptops</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="fashionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Fashion
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
-                        <li><a class="dropdown-item" href="#">Top Wears</a></li>
-                        <li><a class="dropdown-item" href="#">Bottom Wears</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Top wears</a></li>
+                        <li><a class="dropdown-item" href="#">Bottom wears</a></li>
                     </ul>
                 </li>
-                -->
-            </ul>
-
-            <form action="/search" method="get" class="me-3">
-                <input class="form-control" name="q" type="text" placeholder="Search products" aria-label="Search">
-            </form>
-
-            <div>
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item mx-2">
-                      <a href="#" class="nav-link">Cart <span class="badge bg-danger" id="badge">3</span></a>
-                      </li>
-                      <li class="nav-item dropdown mx-2">
-                        <a class="nav-link {% if active %} {{active}} {% endif %}" href="{% url 'profile' %}">
-                          {% load custom_tags %}  <!-- Load the custom tags -->
-                            {% get_username as username %}  <!-- Use the custom tag to get the username -->
-                            {% if username %}
-                                {{username|capfirst}}
-                            {% endif %}
-                        </a>
-                      </li>
-                    {% else %}
-                    <li class="nav-item mx-2">
-                        <a href="{% url 'login' %}" class="text-white">Login</a>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'dashboard' %}">Dashboard</a>
                     </li>
-                    {% endif %}
-                </ul>
-            </div>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Carts <span class="badge bg-danger" id="badge">3</span></a>
+                    </li>
+                    <li  class="nav-item">
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link text-white">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
         </div>
     </div>
 </nav>

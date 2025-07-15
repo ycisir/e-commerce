@@ -20,7 +20,7 @@ from django.views.generic import TemplateView
 class RegistrationView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('profile')
+            return redirect('dashboard')
         return super().dispatch(request, *args, **kwargs)
 
     form_class = RegistrationForm
@@ -73,7 +73,7 @@ class LoginView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('profile')
+            return redirect('dashboard')
             # you can check also if its seller or customer
 
         return super().dispatch(request, *args, **kwargs)
@@ -106,7 +106,7 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             messages.success(request, f'Logged in successfully!')
-            return redirect('profile')
+            return redirect('dashboard')
 
             # you redirect user according to user role but now i am just redirect to profile
             # if user.is_seller:
@@ -225,7 +225,7 @@ class PasswordResetConfirmView(View):
 class ProfileView(LoginRequiredMixin, FormView):
     template_name = 'account/profile.html'
     form_class = CustomerProfileForm
-    success_url = '/account/profile/'
+    success_url = '/account/dashboard/'
 
     def form_valid(self, form):
         user = self.request.user
@@ -238,11 +238,6 @@ class ProfileView(LoginRequiredMixin, FormView):
         update.save()
         messages.success(self.request, 'Details added successfully!')
         return super().form_valid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['active'] = 'active'
-        return context
 
 
 
