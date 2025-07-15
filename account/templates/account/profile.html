@@ -3,17 +3,27 @@
 {% block title %} profile {% endblock title %}
 
 {% block main %}
-    <h3>profile page</h3>
-    {% if request.user.is_authenticated %}
-        welcom {{request.user.email}}
-    {% endif %}
 
-    <br>
-    <a href="{% url 'password_change' %}">change password</a>
-    <br><br><br>
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">logout</button>
-    </form>
+{% if messages %}
+    {% for message in messages %}
+        <p {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</p>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+  <div class="col-md-4">
+    {% include 'account/components/profile_sidebar.html' %}
+  </div>
+  <div class="col-md-8">
+      <h3 class="mb-3">Add shipping address</h3>
+      <form method="post" novalidate>
+          {% csrf_token %}
+          {% include 'account/components/form.html' %}
+          <input type="submit" value="Save address" class="btn btn-primary">
+      </form>
+  </div>
+  
+</div>
 
 {% endblock main %}
+

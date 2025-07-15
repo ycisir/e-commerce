@@ -5,17 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
-    <!-- <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 
     <!-- js  -->
-    <!-- <script src="{% static 'core/js/bootstrap.min.js' %}" defer></script> -->
+    <script src="{% static 'core/js/bootstrap.min.js' %}" defer></script>
+    <script src="{% static 'core/js/main.js' %}" defer></script>
 
     <title>{% block title %} {% endblock title %} - e-commerce</title>
 </head>
 <body>
+    <div class="wrapper">
+        {% include 'core/components/navbar.html' %}
+        
+         <div class="content mt-5">
+            <div class="container">
+                {% block main %}{% endblock main %}
+            </div>
+        </div>
+        
 
-    {% include 'core/components/navbar.html' %}
+        {% include 'core/components/footer.html' %}
+    </div>
     
-    {% block main %} {% endblock main %}
 </body>
 </html>

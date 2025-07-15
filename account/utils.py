@@ -2,6 +2,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from decouple import config
 import threading
 
 class SendEmailThread(threading.Thread):
@@ -15,7 +16,7 @@ class SendEmailThread(threading.Thread):
 
 def send_activation_email(recipient_email, activation_url):
     subject = 'Activate your account on ' + settings.SITE_NAME
-    from_email = 'mkdiryasir@gmail.com'
+    from_email = config('EMAIL_HOST_USER')
     to_email = [recipient_email]
 
     html_content = render_to_string('account/components/email.html', {'activation_url': activation_url})
