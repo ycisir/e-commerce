@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # my_apps
     'account',
+    'customer',
     'core',
 ]
 

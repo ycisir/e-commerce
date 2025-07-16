@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.edit import FormView
-from account.forms import RegistrationForm, LoginForm, CustomPasswordChangeForm, PasswordResetForm, CustomSetPasswordForm, CustomerProfileForm
-from account.models import User, Customer
+from account.forms import RegistrationForm, LoginForm, CustomPasswordChangeForm, PasswordResetForm, CustomSetPasswordForm
+from account.models import User
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
@@ -15,12 +15,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
 
 class RegistrationView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('dashboard')
+            if request.user.is_customer:
+                return redirect('customer_dashboard')
+            else:
+                return redirect('home')
         return super().dispatch(request, *args, **kwargs)
 
     form_class = RegistrationForm
@@ -73,10 +75,12 @@ class LoginView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('dashboard')
-            # you can check also if its seller or customer
-
+            if request.user.is_customer:
+                return redirect('customer_dashboard')
+            else:
+                return redirect('home')
         return super().dispatch(request, *args, **kwargs)
+
     
     def get(self, request, *args, **kwargs):
         form = LoginForm()
@@ -105,17 +109,13 @@ class LoginView(View):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, f'Logged in successfully!')
-            return redirect('dashboard')
 
-            # you redirect user according to user role but now i am just redirect to profile
-            # if user.is_seller:
-            #     return redirect('seller_dashboard')
-            # elif user.is_customer:
-            #     return redirect('customer_dashboard')
-            # else:
-            #     messages.error(request, 'You do not have permission to access this area!')
-            #     return redirect('home')
+            if user.is_customer:
+                messages.success(request, 'Logged in successfully')
+                return redirect('customer_dashboard')
+            else:
+                messages.error(request, 'You do not have permission to access this area!')
+                return redirect('home')
         else:
             messages.error(request, 'Invalid email or password!')
             return redirect('login')
@@ -218,36 +218,3 @@ class PasswordResetConfirmView(View):
         except Exception as e:
             messages.error(request, 'An error occured please try again latter!')
             return redirect('password_reset')
-
-
-
-    
-class ProfileView(LoginRequiredMixin, FormView):
-    template_name = 'account/profile.html'
-    form_class = CustomerProfileForm
-    success_url = '/account/dashboard/'
-
-    def form_valid(self, form):
-        user = self.request.user
-        name = form.cleaned_data['name']
-        locality = form.cleaned_data['locality']
-        city = form.cleaned_data['city']
-        state = form.cleaned_data['state']
-        zipcode = form.cleaned_data['zipcode']
-        update = Customer(user=user, name=name, locality=locality, city=city, state=state, zipcode=zipcode)
-        update.save()
-        messages.success(self.request, 'Details added successfully!')
-        return super().form_valid(form)
-
-
-
-class AddressView(TemplateView):
-    template_name = 'account/address.html'
-    def get_queryset(self):
-        address = Customer.objects.filter(user=self.request.user)
-        return[address]
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_address'] = self.get_queryset()[0]
-        return context
