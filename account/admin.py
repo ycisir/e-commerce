@@ -5,10 +5,11 @@ from account.models import User
 
 class UserModelAdmin(UserAdmin):
 	model = User
-	list_display = ('id', 'email', 'is_superuser', 'is_active', 'is_staff', 'is_customer', 'is_seller')
+	list_display = ('id', 'email', 'name', 'is_superuser', 'is_active', 'is_staff', 'is_customer', 'is_seller')
 	list_filter = ['is_superuser']
 	fieldsets = [
 		('User credentials', {'fields': ['email', 'password']}),
+		('User Informations', {'fields': ['name']}),
 		('Permissions', {'fields': ['is_superuser', 'is_active', 'is_staff', 'is_customer', 'is_seller']})
 	]
 	add_fieldsets = [
@@ -16,7 +17,7 @@ class UserModelAdmin(UserAdmin):
 			None,
 			{
 				'classes': ['wide'],
-				'fields': ['email', 'password1', 'password2'],
+				'fields': ['email', 'name', 'password1', 'password2'],
 			},
 		),
 	]

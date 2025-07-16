@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # my_apps
     'account',
     'customer',
+    'product',
     'core',
 ]
 
@@ -148,3 +149,8 @@ EMAIL_USE_TLS = True
 LOGOUT_REDIRECT_URL = '/account/login/'
 LOGIN_URL = '/account/login/'
 PASSWORD_RESET_TIMEOUT = 600
+
+
+STATIC_ROOT = BASE_DIR / 'static' 
+MEDOA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

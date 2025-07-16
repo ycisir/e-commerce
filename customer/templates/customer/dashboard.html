@@ -30,7 +30,7 @@
                   </div>
               </div>
           {% empty %}
-              <p>No address found <a href="{% url 'address' %}">add shipping address</a></p>
+              <a href="{% url 'address' %}">Add shipping address</a>
           {% endfor %}
         </div>
   </div>

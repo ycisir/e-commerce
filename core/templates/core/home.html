@@ -1,7 +1,140 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %} home {% endblock title %}
 
+{% block banner_slider %}
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'core/images/banner_one.jpg' %}" class="d-block w-100 rounded" alt="..."> 
+        </div>
+<!--         <div class="carousel-item">
+            <img src="{% static 'core/images/banner_two.jpg' %}" class="d-block w-100 rounded" alt="...">
+        </div> -->
+        <!-- <div class="carousel-item">
+            <img src="{% static 'core/images/banner_three.jpg' %}" class="d-block w-100 rounded" alt="...">
+        </div> -->
+    </div>
+
+<!--     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a> -->
+</div>
+{% endblock banner_slider %}
+
+
+
 {% block main %}
-    <h3>home page</h3>
+
+    <div class="my-5 rounded bg-danger text-center px-5 py-3 text-white border-bottom shadow">
+        <h1>SALE IS LIVE NOW</h1>
+        <span>5% Instant Discount on Axis Bank Credit and Debit Card</span> <br>
+        <small class="fw-lighter">Term and Condition Applied (For details visit Bank's official Website)</small>
+    </div>
+
+    <div class="m-3 my-5">
+         <h2>Mobiles</h2>
+         
+         <div class="owl-carousel" id="slider1">
+                {% for mobile in mobiles %}
+                    <a href="{% url 'product_detail' mobile.pk %}" class="btn">
+                        <div class="item">
+                            <img src="{{mobile.product_image.url}}" alt="">
+                            <h5 class="mt-1">{{mobile.title}}</h5>
+                            <p class="fs-5">${{mobile.discount_price}}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+         </div>
+    </div>
+
+    <div class="mx-3 my-5">
+        <h2 class="mt-2">Laptops</h2>
+        <div class="owl-carousel" id="slider2">
+            {% for laptop in laptops %}
+                <a href="{% url 'product_detail' laptop.pk %}" class="btn">
+                    <div class="item">
+                        <img src="{{laptop.product_image.url}}" alt="">
+                        <h5 class="mt-1">{{laptop.title}}</h5>
+                        <p class="fs-5">${{laptop.discount_price}}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="my-5">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <img src="{% static 'core/images/bajaj.jpg' %}" alt="" srcset="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <img src="{% static 'core/images/upi.jpg' %}" alt="" srcset="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <img src="{% static 'core/images/master_card.jpg' %}" alt="" srcset="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <img src="{% static 'core/images/banking.jpg' %}" alt="" srcset="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mx-3 my-5">
+        <h2 class="mt-2">Top wears</h2>
+        <div class="owl-carousel" id="slider2">
+            {% for top_wear in top_wears %}
+                <a href="{% url 'product_detail' top_wear.pk %}" class="btn">
+                    <div class="item">
+                        <img src="{{top_wear.product_image.url}}" alt="">
+                        <h5 class="mt-1">{{top_wear.title}}</h5>
+                        <p class="fs-5">${{top_wear.discount_price}}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="m-3">
+         <h2 class="mt-2">Bottom wears</h2>
+         
+         <div class="owl-carousel" id="slider1">
+                {% for bottom_wear in bottom_wears %}
+                    <a href="{% url 'product_detail' bottom_wear.pk %}" class="btn">
+                        <div class="item">
+                            <img src="{{bottom_wear.product_image.url}}" alt="">
+                            <h5 class="mt-1">{{bottom_wear.title}}</h5>
+                            <p class="fs-5">${{bottom_wear.discount_price}}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+         </div>
+    </div>
 {% endblock main %}
