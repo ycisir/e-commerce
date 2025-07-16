@@ -1,22 +1,27 @@
 {% extends 'core/base.html' %}
 
-{% block title %} address {% endblock title %}
+{% block title %} dashboard {% endblock title %}
 
 {% block main %}
 
+{% if messages %}
+    {% for message in messages %}
+        <p {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</p>
+    {% endfor %}
+{% endif %}
+
 <div class="row">
   <div class="col-md-4">
-      {% include 'account/components/profile_sidebar.html' %}
+    {% include 'customer/components/sidebar.html' %}
   </div>
-
-  <div class="col-md-8">
+  <div class="col-md-8 mb-3">
       <div class="row">
           {% for address in user_address %}
               <div class="col-md-6">
                   <div class="card mb-3">
                       <div class="card-body">
                           <h3>Address {{forloop.counter}}</h3>
-                          <p>Name: {{address.name}}</p>
+                          <p>Name: {{address.customer_name}}</p>
                           <p>Land mark (street): {{address.locality}}</p>
                           <p>City: {{address.city}}</p>
                           <p>State: {{address.state}}</p>
@@ -24,6 +29,8 @@
                       </div>
                   </div>
               </div>
+          {% empty %}
+              <p>No address found <a href="{% url 'address' %}">add shipping address</a></p>
           {% endfor %}
         </div>
   </div>
@@ -31,3 +38,4 @@
 </div>
 
 {% endblock main %}
+

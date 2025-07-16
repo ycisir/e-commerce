@@ -1,20 +1,15 @@
 {% extends 'core/base.html' %}
 
-{% block title %} dashboard {% endblock title %}
+{% block title %} address {% endblock title %}
 
 {% block main %}
 
-{% if messages %}
-    {% for message in messages %}
-        <p {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</p>
-    {% endfor %}
-{% endif %}
-
 <div class="row">
   <div class="col-md-4">
-    {% include 'account/components/profile_sidebar.html' %}
+      {% include 'customer/components/sidebar.html' %}
   </div>
-  <div class="col-md-8 mb-3">
+
+  <div class="col-md-8">
       <h3 class="mb-3">Add shipping address</h3>
       <form method="post" novalidate>
           {% csrf_token %}
@@ -26,4 +21,3 @@
 </div>
 
 {% endblock main %}
-

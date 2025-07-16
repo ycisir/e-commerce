@@ -1,5 +1,5 @@
 from django import forms
-from account.models import User, Customer
+from account.models import User
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 
 
@@ -17,9 +17,12 @@ class RegistrationForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('email', 'password', 'confirm_password')
+		fields = ('email', 'name', 'password', 'confirm_password')
 		widgets = {
 			'email': forms.EmailInput(attrs={
+				'class': 'form-control',
+			}),
+			'name': forms.EmailInput(attrs={
 				'class': 'form-control',
 			})
 		}
@@ -27,7 +30,9 @@ class RegistrationForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['email'].label = 'Email address'
+		self.fields['name'].label = 'Full name'
 		self.fields['email'].label_suffix = ''
+		self.fields['name'].label_suffix = ''
 
 	def clean(self):
 		cleaned_data = super().clean()
@@ -90,22 +95,3 @@ class CustomSetPasswordForm(SetPasswordForm):
 
 
 
-class CustomerProfileForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = ['name', 'locality', 'city', 'state', 'zipcode']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'locality': forms.TextInput(attrs={'class': 'form-control'}),
-            'city': forms.TextInput(attrs={'class': 'form-control'}),
-            'state': forms.Select(attrs={'class': 'form-control'}),
-            'zipcode': forms.NumberInput(attrs={'class': 'form-control'}),
-        }
-
-    def __init__(self, *args, **kwargs):
-    	super().__init__(*args, **kwargs)
-    	self.fields['name'].label_suffix = ''
-    	self.fields['locality'].label_suffix = ''
-    	self.fields['city'].label_suffix = ''
-    	self.fields['state'].label_suffix = ''
-    	self.fields['zipcode'].label_suffix = '' 
